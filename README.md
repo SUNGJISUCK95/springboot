@@ -1,2 +1,2 @@
 # springboot
-springboot study
+스프링부트 실습
