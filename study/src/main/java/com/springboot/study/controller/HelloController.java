@@ -18,6 +18,7 @@ public class HelloController {
     @PostMapping("/spring") /** 다른 형식의 Mapping이면 다른 Controller에서도 사용가능 */
     public String hello(Model model) { /** Model model = 값; 처럼 지정없이 bean factory에서 자동으로 만들어줌 */
 //        System.out.println("---> HelloController!!!");
+        model.addAttribute("titleName", "Hello");
         model.addAttribute("pathName",  "hello");
         model.addAttribute("data", "홍길동");
         return "hello"; //호출 경로 ex) hello.html
@@ -26,6 +27,7 @@ public class HelloController {
     @GetMapping("/hello2")
     public String hello2(Model model) {
 //        System.out.println("---> HelloController2!!!");
+        model.addAttribute("titleName", "Hello2");
         model.addAttribute("pathName", "hello2");
         model.addAttribute("data", "홍길동 친구");
         return "hello";

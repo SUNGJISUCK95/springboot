@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+    <h1>회원가입 결과 : <span th:text="${result}"></span></h1>
+        <ul>
+            <li>아이디 : <span th:text="${member.getId()}"></span></li>
+            <li>패스워드 : <span th:text="${member.getPass()}"></span></li>
+            <li>이름 : <span th:text="${member.getName()}"></span></li>
+            <li>주소 : <span th:text="${member.getAddress()}"></span></li>
+        </ul>
+</body>
+</html>
