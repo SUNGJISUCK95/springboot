@@ -10,6 +10,26 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MemberController {
+    /**
+     * REST API 회원가입 화면 (나중에 react를 사용할때는 이 부분은 사용하지 않는다)
+     */
+    @GetMapping("/restSignUp")
+    public String restSignUp() {
+        return "restSignUp"; /** view name */
+        /** @RestController 선언시 @GetMapping에도 @ResponseBody가 들어가 있어서
+         *  MemberController로 옮겨서 사용한다.*/
+    }
+    
+    /**
+     * REST API 로그인 화면 (나중에 react를 사용할때는 이 부분은 사용하지 않는다)
+     */
+    @GetMapping("/restLogin")
+    public String restLogin() {
+        return "restLogin"; /** view name */
+                            /** @RestController 선언시 @GetMapping에도 @ResponseBody가 들어가 있어서
+                             *  MemberController로 옮겨서 사용한다.*/
+    }
+
     @GetMapping("/login") /**아이디, 패스워드를 입력하는 곳*/
     public String login() {
         return "login"; /**로그인 화면, view name -> templates*/
