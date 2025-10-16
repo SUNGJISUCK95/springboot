@@ -27,7 +27,7 @@
 
             //2. featch 호출
 
-            const response = await fetch("http://localhost:8080/restSignUp", {
+            const response = await fetch("http://localhost:8080/member/restSignUp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", },
                 body: JSON.stringify(formData)

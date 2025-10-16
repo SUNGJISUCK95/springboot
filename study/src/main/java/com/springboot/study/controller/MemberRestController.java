@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @RestController /** 내부에 @ResponseBody 포함 (@ResponseBody 생략 가능) */
                 /** Map 객체 생성 없이 JSON 객체 바로 전송 */
+@RequestMapping("/member") /** 자동으로 경로에 입력한 경로를 추가해줌 ex) /member/restLogin */
+                           /** @RequestMapping를 별도로 주고싶으면 Controller를 별도로 만들어야한다. */
 public class MemberRestController {
     @PostMapping("/restLogin")
     // @ResponseBody
