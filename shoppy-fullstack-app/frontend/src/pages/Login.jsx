@@ -4,7 +4,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { FaLock } from "react-icons/fa";
 import { validateFormCheck } from '../utils/validate.js';
 import { AuthContext } from '../context/AuthContext.js';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getLogin } from '../feature/auth/authAPI.js';
 
 export function Login() {

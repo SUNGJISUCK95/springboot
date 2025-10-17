@@ -13,43 +13,46 @@ export function validateSignupCheck(param) {
         return false; 
         // 작업이 다시 Signup.jsx(DOM 객체)으로 가야하므로 return false해줌 
         // return false로 해당 if을 빠져나옴
-    } else if (refs.pwdRef.current.value === ""){
-        // alert("비밀번호를 입력해주세요.");
-        setMsg({pwd: " 비밀번호를 입력해주세요."});
-        // refs.msgPwdRef.current.innerText = " 비밀번호를 입력해주세요";
-        refs.pwdRef.current.focus();
-        return false;
-    } else if (refs.cpassRef.current.value === ""){
-        // alert("비밀번호 확인을 위해 재입력해주세요.");
-        setMsg({cpass: " 비밀번호 확인을 위해 재입력해주세요."});
-        // refs.msgCpassRef.current.innerText = " 비밀번호 확인을 위해 재입력해주세요.";
-        refs.cpassRef.current.focus();
-        return false;
-    } else if (refs.unameRef.current.value === ""){
-        // alert("이름을 입력해주세요.");
-        setMsg({uname: " 이름을 입력해주세요."});
-        // refs.msgUnameRef.current.innerText = " 이름을 입력해주세요";
-        refs.unameRef.current.focus();
-        return false;
-    } else if (refs.phoneRef.current.value === ""){
-        // alert("전화번호를 입력해주세요.");
-        setMsg({phone: " 전화번호를 입력해주세요."});
-        // refs.msgPhoneRef.current.innerText = " 전화번호를 입력해주세요";
-        refs.phoneRef.current.focus();
-        return false;
-    } else if (refs.emailNameRef.current.value === ""){
+    }
+//    else if (refs.pwdRef.current.value === ""){
+//        // alert("비밀번호를 입력해주세요.");
+//        setMsg({pwd: " 비밀번호를 입력해주세요."});
+//        // refs.msgPwdRef.current.innerText = " 비밀번호를 입력해주세요";
+//        refs.pwdRef.current.focus();
+//        return false;
+//    } else if (refs.cpassRef.current.value === ""){
+//        // alert("비밀번호 확인을 위해 재입력해주세요.");
+//        setMsg({cpass: " 비밀번호 확인을 위해 재입력해주세요."});
+//        // refs.msgCpassRef.current.innerText = " 비밀번호 확인을 위해 재입력해주세요.";
+//        refs.cpassRef.current.focus();
+//        return false;
+//    } else if (refs.unameRef.current.value === ""){
+//        // alert("이름을 입력해주세요.");
+//        setMsg({uname: " 이름을 입력해주세요."});
+//        // refs.msgUnameRef.current.innerText = " 이름을 입력해주세요";
+//        refs.unameRef.current.focus();
+//        return false;
+//    } else if (refs.phoneRef.current.value === ""){
+//        // alert("전화번호를 입력해주세요.");
+//        setMsg({phone: " 전화번호를 입력해주세요."});
+//        // refs.msgPhoneRef.current.innerText = " 전화번호를 입력해주세요";
+//        refs.phoneRef.current.focus();
+//        return false;
+//    }
+    else if (refs.emailNameRef.current.value === ""){
         // alert("이메일을 입력해주세요.");
         setMsg({emailName: " 이메일을 입력해주세요."});
         // refs.msgEmailRef.current.innerText = " 이메일을 입력해주세요";
         refs.emailNameRef.current.focus();
         return false;
-    } else if (refs.emailDomainRef.current.value === "default"){
-        // alert("이메일 도메인을 선택해주세요.");
-        setMsg({emailName: " 이메일 도메인을 선택해주세요."});
-        // refs.msgEmailRef.current.innerText = " 이메일 도메인을 선택해주세요.";
-        refs.emailDomainRef.current.focus();
-        return false;
     }
+//    else if (refs.emailDomainRef.current.value === "default"){
+//        // alert("이메일 도메인을 선택해주세요.");
+//        setMsg({emailName: " 이메일 도메인을 선택해주세요."});
+//        // refs.msgEmailRef.current.innerText = " 이메일 도메인을 선택해주세요.";
+//        refs.emailDomainRef.current.focus();
+//        return false;
+//    }
     return true;
 }
 

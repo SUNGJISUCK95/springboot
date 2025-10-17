@@ -1,10 +1,12 @@
 import React, { useState, useRef, useMemo, createRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { validateSignupCheck } from '../utils/validate.js';
+import { useDispatch } from 'react-redux';
 import { initForm } from '../utils/init.js';
 import { axiosPost } from '../utils/dataFetch.js';
+import { getSignUp, getIdCheck } from '../feature/auth/authAPI.js';
 
 export function Signup() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const initArray = ["id", "pwd", "cpass", "uname", "phone", "emailName", "emailDomain"];
@@ -35,33 +37,21 @@ export function Signup() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const param = { //오브젝트 리터럴(Object Literal) - object 형태로 매개변수들을 묶어서 사용
+        const param = {
             refs: refs,
             setMsg: setMsg
         }
-        
-        if(validateSignupCheck(param)){
-            console.log("submit => ", form);
+        const formData = { ...form, email:form.emailName.concat('@',form.emailDomain) }
+        const result = await dispatch(getSignUp(formData, param));
+//         console.log("result =>", result);
 
-            /**
-                Springboot 연동 - Post, /member/signUp
-             */
-
-            const url = "http://localhost:8080/member/signUp";
-            const formData = { ...form, email: form.emailName.concat('@', form.emailDomain)}
-            console.log('formData -> ', formData);
-            const result = await axiosPost(url, formData);
-            console.log(result);
-
-            if(result){
-                alert("회원가입에 성공하셨습니다.");
-                navigate("/login");
-            } else {
-                alert("회원가입에 실패, 확인후 다시 진행해주세요.");
-                setForm(initForm(initArray));
-            }
+        if(result) {
+            alert("회원가입에 성공하였습니다.");
+            navigate("/login");
+        }else {
+            alert("회원가입에 실패, 확인 후 다시 진행해주세요.");
+            setForm(initForm(initArray));
         }
-        
     }
 
     // console.log(form);
@@ -70,11 +60,10 @@ export function Signup() {
     const handleDupulicateIdCheck = async () => {
         console.log(form.id);
 
-        const url = "http://localhost:8080/member/idCheck";
-        const data = { "id": form.id };
-        const result = await axiosPost(url, data);
+        const result = await dispatch(getIdCheck(form.id));
         alert(result);
     }
+
     return (
     <div className="content">
         <div className="join-form center-layout">
