@@ -19,12 +19,11 @@ export function ProductDetail() {
     // 그래서 구조 분해 할당으로 사용
 
     const dispatch = useDispatch(); //useDispath()를 이용해서 함수 호출
-    const product = useSelector((state) => state.product.product); 
-    // const imgList = useSelector((state) => state.product.product.imgList);
-    const imgList = useSelector((state) => state.product.product.imgList);
-    
+    const product = useSelector((state) => state.product.product);
+    const imgList = useSelector((state) => state.product.imgList);
+
     const[size, setSize] = useState('XS');
-    const tabLabels = ['DETAIL', 'REVIEN', 'Q&A', 'RETURN & DELIVERY'];
+    const tabLabels = ['DETAIL', 'REVIEW', 'Q&A', 'RETURN & DELIVERY'];
     const [tabName, setTabName] = useState('detail');
     const tabEventNames = ['detail', 'review', 'qna', 'return']; 
 
@@ -38,7 +37,7 @@ export function ProductDetail() {
         <div className="content">
             <div className="product-detail-top">
                 <div className="product-detail-image-top">
-                    <img src={product.image} />
+                    <img src={product.image && `/images/${product.image}`} />
                     <ImageList className="product-detail-image-top-list" imgList={imgList} />
                 </div>
                 <ul className="product-detail-info-top">

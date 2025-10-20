@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/member")
-@CrossOrigin(origins = {"http://localhost:3000"})
+//@CrossOrigin(origins = {"http://localhost:3000"})
 public class MemberController {
 
     //서비스 객체 가져오기
@@ -25,10 +25,6 @@ public class MemberController {
         boolean result = false;
 //        System.out.println(member.getId()); //단축키 sout
 //        System.out.println(member.getPass());
-
-        if(member.getId().equals("test") && member.getPwd().equals("1234")) {
-            result = true;
-        }
 
         return result;
     }

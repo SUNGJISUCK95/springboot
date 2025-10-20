@@ -41,7 +41,25 @@ export const axiosData = async(url) => { //axios는 json()으로 파싱작업 �
 }
 
 /**
- * axios 함수를 이용하여 백엔드 연동 처리
+ * axios 함수를 이용하여 백엔드 연동 처리 //DB 경우
+ */
+
+export const axiosGet = async (url) => {
+    const response = await axios.get(url);
+    console.log(response);
+
+//    위 방식 또는
+//    const response = await axios({
+//        method:"GET",
+//        url: url,
+//        data: formData
+//    })
+
+    return response.data;
+}
+
+/**
+ * axios 함수를 이용하여 백엔드 연동 처리 //JSON 경우
  */
 
 export const axiosPost = async (url, formData) => { //axios는 json()으로 파싱작업 필요없음 (자동으로 해줌)

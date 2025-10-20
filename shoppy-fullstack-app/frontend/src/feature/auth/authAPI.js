@@ -7,7 +7,7 @@ import { axiosPost } from '../../utils/dataFetch.js';
 */
 export const getIdCheck = (id) => async(dispatch) => {
     const data = { "id": id };
-    const url = "http://localhost:8080/member/idCheck";
+    const url = "/member/idCheck";
     const result = await axiosPost(url, data);
 
     return result;
@@ -21,7 +21,7 @@ export const getSignUp = (formData, param) => async(dispatch) => {
     if(validateSignupCheck(param)){
         console.log("submit => ", formData);
 
-        const url = "http://localhost:8080/member/signUp";
+        const url = "/member/signUp";
         result = await axiosPost(url, formData);
         console.log("result => ", result);
     }
@@ -51,7 +51,7 @@ export const getLogin = (formData, param) => async(dispatch) => {
                 또는
                 axios.post(url[, data[, config]])
         */
-        const url = "http://localhost:8080/member/login";
+        const url = "/member/login";
         const result = await axiosPost(url, formData);
         if(result) {
             dispatch(login({"userId":formData.id}));
