@@ -5,10 +5,10 @@ import axios from 'axios';
  */
 export const groupByRows = (array, number) => {
     //출력 포맷 함수 : 한줄에 상품 3개씩 출력
-    
+
     //방법1)
     // const rows = []; // [ [{}, {}, {}], [{}, {}, {}], [{}] ]
-    
+
     // for(let i=0; i<array.length; i+=3) {
     //     const row = list.slice(i, i+3); //0~2번지까지 묶어서, slice 새로운 배열 return
     //     rows.push(row);
@@ -25,7 +25,7 @@ export const groupByRows = (array, number) => {
             acc[acc.length-1].push(cur); // 기존 마지막 배열에 추가
         }
         return acc;
-        
+
     }, []);
 
     return rows;
@@ -57,6 +57,7 @@ export const axiosGet = async (url) => {
 
     return response.data;
 }
+
 
 /**
  * axios 함수를 이용하여 백엔드 연동 처리 //JSON 경우

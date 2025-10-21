@@ -13,8 +13,8 @@ import { addCart } from "../feature/cart/cartAPI.js";
 import { getProduct } from "../feature/product/productAPI.js";
 
 export function ProductDetail() {
-    const { pid } = useParams(); 
-    // { pid: 1 } 
+    const { pid } = useParams();
+    // { pid: 1 }
     // 객체(object)형태로 가지고 있음
     // 그래서 구조 분해 할당으로 사용
 
@@ -25,7 +25,7 @@ export function ProductDetail() {
     const[size, setSize] = useState('XS');
     const tabLabels = ['DETAIL', 'REVIEW', 'Q&A', 'RETURN & DELIVERY'];
     const [tabName, setTabName] = useState('detail');
-    const tabEventNames = ['detail', 'review', 'qna', 'return']; 
+    const tabEventNames = ['detail', 'review', 'qna', 'return'];
 
     useEffect(() => {
         dispatch(getProduct(pid));
@@ -85,7 +85,7 @@ export function ProductDetail() {
 
             <div className='product-detail-tab'>
                 <ul className='tabs'>
-                    { tabLabels && tabLabels.map((label, i) => 
+                    { tabLabels && tabLabels.map((label, i) =>
                         <li className={tabName === tabEventNames[i]? "active": "" }>
                             <button type="button"
                                     onClick={()=> setTabName(tabEventNames[i])}
@@ -94,15 +94,14 @@ export function ProductDetail() {
                     )}
                 </ul>
 
-                {tabName === "detail" 
-                                &&  <Detail imgList={imgList} 
-                                            info={product.detailInfo}       />}
+                {tabName === "detail"
+                                &&  <Detail imgList={imgList} pid={pid}/>}
                 {tabName === "review" &&  <Review />}
-                {tabName === "qna" &&  <QnA />}
+                {tabName === "qna" &&  <QnA pid={pid}/>}
                 {tabName === "return" &&  <Return />}
 
             </div>
             <div style={{marginBottom:"50px"}}></div>
-        </div>       
+        </div>
     );
 }
