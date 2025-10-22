@@ -37,8 +37,21 @@ export const getDetailinfo = async(pid) => {
 */
 export const getQna = async(pid) => {
     const url = "/product/qna";
-    const qna = await axiosPost(url, {"pid":pid});
-    console.log("qna ==> ", qna);
+    const qna = await axiosPost(url, {"pid":pid}); //데이터를 넘기고 return값 가져올때 Post
+//    console.log("qna ==> ", qna);
 
     return qna;
+}
+
+/**
+    상품 Return
+*/
+export const getReturn = async() => {
+    const url = "/product/return";
+    const returnData = await axiosGet(url); //데이터만 가져올때는 Get
+//    console.log("returnData ==> ", returnData);
+    const list = JSON.parse(returnData.list); //JSON데이터는 parse작업
+//    console.log("returnData.list ==> ", JSON.parse(returnData.list));
+
+    return { ...returnData, list:list }; //기존 데이터와 parse한 데이터 묶어서 return
 }

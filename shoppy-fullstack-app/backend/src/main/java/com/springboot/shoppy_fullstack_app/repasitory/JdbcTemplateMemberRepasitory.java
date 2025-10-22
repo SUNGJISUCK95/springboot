@@ -59,15 +59,14 @@ public class JdbcTemplateMemberRepasitory implements  MemberRepository {
 
     @Override
     public String login(String id){
-        String sql = "SELECT pwd FROM member WHERE id = ?";
-
-        //값을 하나 찾을때 사용
-//        String encordePwd = jdbcTemplate.queryForObject(sql, String.class, id);
-//        return encordePwd;
+        String sql = "select pwd from member where id = ?";
+        String encodePwd = jdbcTemplate.queryForObject(sql, String.class, id);
+        return encodePwd;
 
         //값을 여러개 찾을때 사용
-        Member member = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Member.class), //RowMapper<T>
-                                                    id);
-        return member.getPwd();
+//        Member member = jdbcTemplate.queryForObject(sql,
+//                                    new BeanPropertyRowMapper<>(Member.class),  //RowMapper<T>
+//                                    id);
+//        return member.getPwd();
     }
 }

@@ -3,6 +3,7 @@ package com.springboot.shoppy_fullstack_app.repasitory;
 import com.springboot.shoppy_fullstack_app.dto.Product;
 import com.springboot.shoppy_fullstack_app.dto.ProductDetailinfo;
 import com.springboot.shoppy_fullstack_app.dto.ProductQna;
+import com.springboot.shoppy_fullstack_app.dto.ProductReturn;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -49,11 +50,19 @@ public class jdbcTemplateProductRepository implements ProductRepository{
 
     @Override
     public List<ProductQna> findQna(int pid) { /** 받는 값이 여래개일때 List<>타입으로 지정*/
-        System.out.println("repository ==> ");
+//        System.out.println("repository ==> ");
         String sql = "select qid, title, content, is_complete as isComplete, is_lock as isLock, id, pid, cdate from product_qna where pid = ?";
 
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ProductQna.class), pid);
         /** 이렇게 줄여서 사용해도 됨 */
         /** 받는 값이 여래개일때 jdbcTemplate.query()로 지정*/
+    }
+
+    @Override
+    public ProductReturn findReturn() {
+//        System.out.println("repository ==> ");
+        String sql = "select rid, title, description, list from product_return";
+
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ProductReturn.class));
     }
 }

@@ -22,11 +22,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public boolean login(@RequestBody Member member) {
-        boolean result = false;
-//        System.out.println(member.getId()); //단축키 sout
-//        System.out.println(member.getPass());
-
-        return result;
+        return memberService.login(member);
     }
 
     @PostMapping("/signUp")

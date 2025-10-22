@@ -3,6 +3,7 @@ package com.springboot.shoppy_fullstack_app.service;
 import com.springboot.shoppy_fullstack_app.dto.Product;
 import com.springboot.shoppy_fullstack_app.dto.ProductDetailinfo;
 import com.springboot.shoppy_fullstack_app.dto.ProductQna;
+import com.springboot.shoppy_fullstack_app.dto.ProductReturn;
 import com.springboot.shoppy_fullstack_app.repasitory.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,13 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<ProductQna> findQna(int pid) {
-        System.out.println("service ==> ");
+//        System.out.println("service ==> ");
         return productRepository.findQna(pid);
+    }
+
+    @Override
+    public ProductReturn findReturn() {
+//        System.out.println("service ==> ");
+        return productRepository.findReturn();
     }
 }

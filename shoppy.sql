@@ -226,3 +226,83 @@ select
 from member m, product p, product_qna pq
 where m.id = pq.id and p.pid = pq.pid
 	and m.id = 'hong' and p.pid = 1;
+    
+/** 데이터베이스 열기 */
+use shoppy;
+select database();
+
+/** 테이블 목록 확인 */
+show tables;
+
+/****************************************
+	상품 Return/Delivery 테이블 생성 : product_return
+****************************************/
+drop table product_return;
+create table product_return (
+	rid				int				auto_increment		primary key,
+    title			varchar(100)	not null,
+    description		varchar(200),
+    list			json
+);
+
+desc product_return;
+select * from product_return;
+
+-- json_table을 이용하여 데이터 추가
+INSERT INTO product_return(title, description, list)
+SELECT 
+  jt.title, -- 테이블의 컬럼 매핑 -- jt = json_table
+  jt.description,
+  jt.list
+FROM JSON_TABLE(
+  CAST(LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/productReturn.json') AS CHAR CHARACTER SET utf8mb4),
+  '$[*]' COLUMNS (
+    title 			VARCHAR(100) 	PATH '$.title',
+    description 	VARCHAR(200) 	PATH '$.description',
+    list     		JSON         	PATH '$.list'
+  )
+) AS jt;
+
+select rid, title, description, list from product_return;
+
+/****************************************
+	장바구니 테이블 생성 : cart
+****************************************/
+-- cid, pid, id, size, qty, cdate
+create table cart(
+	cid		int				auto_increment		primary key,
+    size	char(2)			not null,
+    qty		int 			not null,
+    pid		int				not	null,
+    id		varchar(50)		not null,
+    cdate	datetime		not null,
+    constraint fk_cart_pid foreign key(pid) references product(pid)
+    on delete cascade 
+    on update cascade,
+    constraint fk_cart_id foreign key(id) references member(id)
+    on delete cascade 
+    on update cascade
+);
+
+show tables;
+desc cart;
+select * from cart;
+
+-- mysql은 수정, 삭제 시 update mode를 변경
+SET SQL_SAFE_UPDATES = 0;
+
+select * from cart;
+delete from cart where cid in (1,2);
+
+-- pid:2, size:xs 인 상품 조회
+select count(*) as checkQty, cid from cart where pid = 2 and size = 'xs' group by cid;
+
+select count(*) as checkQty from cart where pid = 2 and size = 'xs';
+
+-- pid, size를 이용하여 상품의 존재 check
+-- checkQty = 1 인 경우 cid(o) 유효 데이터
+-- checkQty = 0 인 경우 cid(x) 무효 데이터
+select cid, sum(pid=2 and size='xs' and id='hong') as checkQty from cart group by cid, id order by checkQty desc limit 1;
+
+select count(*) from cart
+where id = 'hong';

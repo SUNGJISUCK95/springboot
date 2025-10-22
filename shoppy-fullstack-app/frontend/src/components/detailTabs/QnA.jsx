@@ -8,11 +8,11 @@ export function QnA({pid}) {
     const [isOpen, setIsOpen] = useState(true);
 
     useEffect(()=> {
-        const fetch = async() => {
+        const fetch = async(pid) => {
             const jsonData = await getQna(pid);
             setQnaData(jsonData);
         }
-        fetch();
+        fetch(pid);
     }, []);
 
 //     console.log("qna ==> ", qnaData);
