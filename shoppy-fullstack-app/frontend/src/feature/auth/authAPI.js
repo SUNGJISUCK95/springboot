@@ -1,6 +1,8 @@
 import { login, logout } from '../../feature/auth/authSlice.js';
 import { validateFormCheck, validateSignupCheck } from '../../utils/validate.js';
 import { axiosPost } from '../../utils/dataFetch.js';
+import { getCartCount } from '../../feature/cart/cartAPI.js';
+import { updateCartCount, resetCartCount } from '../../feature/cart/cartSlice.js';
 
 /**
     ID 중복 체크
@@ -35,33 +37,27 @@ export const getSignUp = (formData, param) => async(dispatch) => {
 export const getLogin = (formData, param) => async(dispatch) => {
 
     if(validateFormCheck(param)) {
-        /**
-            SpringBoot - @RestController, @PostMapping("/member/login") 로 넘겨야함
-
-            axios 사용함
-            ex) // POST 요청 전송
-                axios({
-                  method: 'post',
-                  url: '/user/12345',
-                  data: {
-                    firstName: 'Fred',
-                    lastName: 'Flintstone'
-                  }
-                });
-                또는
-                axios.post(url[, data[, config]])
-        */
         const url = "/member/login";
         const result = await axiosPost(url, formData);
         if(result) {
             dispatch(login({"userId":formData.id}));
+            //장바구니 카운트 함수 호출
+//            const count = await getCartCount(formData.id);
+//            console.log("count => ", count);
+
+            //cartSlice > updateCartCount : dispatch 호출
+            dispatch(getCartCount(formData.id));
             return true;
         }
     }
     return false;
 }
 
+/**
+    Logout
+*/
 export const getLogout = () => async(dispatch) => {
     dispatch(logout());
+    dispatch(resetCartCount());
     return true;
 }

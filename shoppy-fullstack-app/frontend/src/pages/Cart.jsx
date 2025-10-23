@@ -10,11 +10,10 @@ import { showCart, updateCart, removeCart } from '../feature/cart/cartAPI.js'
 
 
 export function Cart() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const cartList = useSelector((state) => state.cart.cartList);
     const totalPrice = useSelector((state) => state.cart.totalPrice);
-    
-    const navigate = useNavigate();
 
     useEffect(() => { //useEffect로 되어있으면 해당 내용을 맨먼저 한번 실행한다.
         dispatch(showCart());
@@ -26,7 +25,7 @@ export function Cart() {
             { cartList && cartList.map(item => 
                 <div key={item.pid}>
                     <div className='cart-item'>
-                        <img src={item.image} alt="product img" />
+                        <img src={`/images/${item.image}`} alt="product img" />
                         <div className='cart-item-details'>
                             <p className='cart-item-title'>{item.name}</p>
                             <p className='cart-item-title'>{item.size}</p>
@@ -35,7 +34,7 @@ export function Cart() {
                         </div>
                         <div className='cart-quantity'>
                             <button type='button'
-                                    onClick={()=>{ dispatch(updateCart(item.cid, '-'))}}>-</button> 
+                                    onClick={()=>{ dispatch(updateCart(item.cid, '-'))}}>-</button>
                             <input type='text' value={item.qty} readOnly/>
                             <button type='button'
                                     onClick={()=>{ dispatch(updateCart(item.cid, '+'))}}>+</button>

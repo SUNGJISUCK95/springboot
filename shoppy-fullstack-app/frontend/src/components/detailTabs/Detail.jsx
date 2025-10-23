@@ -19,7 +19,7 @@ export function Detail({imgList, pid}) {
         loadData(pid);
     }, []);
 
-    console.log("info ==> ", info);
+//     console.log("info ==> ", info);
 
 
     return (

@@ -46,7 +46,7 @@ export const axiosData = async(url) => { //axios는 json()으로 파싱작업 �
 
 export const axiosGet = async (url) => {
     const response = await axios.get(url);
-    console.log(response);
+//    console.log(response);
 
 //    위 방식 또는
 //    const response = await axios({
@@ -66,7 +66,7 @@ export const axiosGet = async (url) => {
 export const axiosPost = async (url, formData) => { //axios는 json()으로 파싱작업 필요없음 (자동으로 해줌)
 //    const response = await axios.post(url, 데이터, 환경설정);
     const response = await axios.post(url, formData, {"Content-Type": "application/json"});
-    console.log(response);
+//    console.log(response);
 
 //    위 방식 또는
 //    const response = await axios({

@@ -302,7 +302,40 @@ select count(*) as checkQty from cart where pid = 2 and size = 'xs';
 -- pid, size를 이용하여 상품의 존재 check
 -- checkQty = 1 인 경우 cid(o) 유효 데이터
 -- checkQty = 0 인 경우 cid(x) 무효 데이터
-select cid, sum(pid=2 and size='xs' and id='hong') as checkQty from cart group by cid, id order by checkQty desc limit 1;
+SELECT 
+      ifnull(MAX(cid), 0) AS cid,
+      COUNT(*) AS checkQty
+    FROM cart
+    WHERE pid = 1 AND size = 'xs' AND id = 'test';
 
-select count(*) from cart
-where id = 'hong';
+select * from cart;
+
+-- 장바구니 상품 개수 조회
+select ifnull(sum(qty), 0) as sumQty from cart where id = 'test';
+
+
+-- 장바구니 리스트 조회 : 상품(product) + 장바구니(cart) + 회원(member)
+-- 어떤 회원이 어떤 상품을 몇개 장바구니에 담았는가?
+select 
+	m.id, 
+    p.pid, 
+    p.name, 
+    p.image, 
+    p.price, 
+    c.size, 
+    c.qty, 
+    c.cid,
+    (select sum(c.qty * p.price)
+		from cart c
+		inner join product p on c.pid = p.pid
+		where c.id = 'test') as total_price
+from member m, product p, cart c 
+where m.id = c.id 
+	and p.pid = c.pid 
+    and m.id = 'hong'; 
+    
+-- 장바구니 총 상품 가격 : qty(cart), price(product)
+select sum(c.qty * p.price) as total_price
+from cart c
+inner join product p on c.pid = p.pid
+where c.id = 'test';

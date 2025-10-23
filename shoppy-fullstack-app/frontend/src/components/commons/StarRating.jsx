@@ -38,6 +38,14 @@ export function StarRating({totalRate, className}) {
                 </span>
             )}
 
+            {/* 별점 표시 - 리뷰 */}
+            { className === "star-black-big"  && 
+                <>
+                <span className={className.concat(" number")}>{totalRate} /</span>
+                <span className={className.concat(" tot-number")}> 5 </span>
+                </>
+            } 
+
             {/* 별점 표시 */}
             {className === "star-coral" && ( //if문 이랑 같게 보면됨
                 <>

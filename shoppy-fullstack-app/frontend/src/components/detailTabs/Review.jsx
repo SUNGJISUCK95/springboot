@@ -43,7 +43,7 @@ export function ReviewTop({ data }) {
                           구매하신 분들의 상품에 대한 평점입니다.  
                         </p>
                         <StarRating totalRate={3.6}
-                                    style="star-black-big" />
+                                    className="star-black-big" />
                     </div>
                 </li>
                 { data.topList && data.topList.map(item => 
@@ -102,21 +102,21 @@ export function ReviewList() {
                     <tr>
                         <td className='review-list-star'>
                             <StarRating totalRate={3.4}
-                                        style="start-black-review" />
+                                        className="start-black-review" />
                         </td>
                         <td> <ReviewListItem /> </td>
                     </tr>
                     <tr>
                         <td className='review-list-star'>
                             <StarRating totalRate={4.4}
-                                        style="start-black-review" />
+                                        className="start-black-review" />
                         </td>
                         <td> <ReviewListItem /> </td>
                     </tr>
                     <tr>
                         <td className='review-list-star'>
                             <StarRating totalRate={4.8}
-                                        style="start-black-review" />
+                                        className="start-black-review" />
                         </td>
                         <td> <ReviewListItem /> </td>
                     </tr>
