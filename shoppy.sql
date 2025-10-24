@@ -314,12 +314,16 @@ select * from cart;
 select ifnull(sum(qty), 0) as sumQty from cart where id = 'test';
 
 
--- 장바구니 리스트 조회 : 상품(product) + 장바구니(cart) + 회원(member)
+-- 회원별 장바구니 리스트 조회 : 상품(product) + 장바구니(cart) + 회원(member)
 -- 어떤 회원이 어떤 상품을 몇개 장바구니에 담았는가?
 select 
 	m.id, 
+    m.name,
+    m.phone,
+    m.emailName,
     p.pid, 
     p.name, 
+    p.info,
     p.image, 
     p.price, 
     c.size, 
@@ -339,3 +343,93 @@ select sum(c.qty * p.price) as total_price
 from cart c
 inner join product p on c.pid = p.pid
 where c.id = 'test';
+
+select * from member;
+
+-- 장바구니 리스트 VIEW 생성
+show tables from information_schema;
+select * from information_schema.views where table_schema = 'shoppy';
+
+-- drop view view_cartlist;
+create view view_cartlist
+as 
+select
+	m.id,
+	m.name as mname,
+	m.phone,
+	m.emailName,
+	p.pid,
+	p.name,
+	p.info,
+	p.image,
+	p.price,
+	c.size,
+	c.qty,
+	c.cid,
+    t.totalPrice
+from member m, product p, cart c,
+    (select c.id, sum(c.qty * p.price) as totalPrice
+		from cart c
+		inner join product p on c.pid = p.pid
+		group by c.id) as t
+where m.id = c.id
+	and p.pid = c.pid
+	and c.id = t.id;
+
+
+select * from view_cartlist where id ='test';
+
+-- select a, (select ~~~) as b <-- 스칼라 서브쿼리
+-- from test, (select ~~~) as t <-- 인라인 뷰
+-- where id = (select ~~~) <-- 서브쿼리
+
+select id, mname, phone, email, pid, name, info, image, price, size, qty, vd.cid, totalPrice
+from view_cartlist vc,
+	(select c.cid, sum(c.qty * p.price) as totalPrice
+ 			from cart c
+ 			inner join product p on c.pid = p.pid
+ 			where c.id = 'test'
+            group by c.cid) as total -- (select ~~~)는 인라인 뷰
+where vc.cid = total.cid;
+
+select c.id, sum(c.qty * p.price) as totalPrice
+ 			from cart c
+ 			inner join product p on c.pid = p.pid
+            group by c.id;
+
+/***************************************************
+	고객센터 테이블 생성 : support
+****************************************************/
+DROP TABLE support;
+create table support(
+	sid 		int 			auto_increment primary key,
+	title		varchar(100)	not null,
+    content		varchar(200),
+    stype		varchar(30)		not null,
+    hits			int,
+    rdate		datetime
+);
+
+show tables;
+
+desc support;
+select * from support;
+
+INSERT INTO support(title, stype, hits, rdate) -- not null이 아니면 빼야한다.
+SELECT 
+  jt.title, -- 테이블의 컬럼 매핑 -- jt = json_table
+  jt.stype,
+  jt.hits,
+  jt.rdate
+FROM JSON_TABLE(
+  CAST(LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/support_list.json') AS CHAR CHARACTER SET utf8mb4),
+  '$[*]' COLUMNS (
+    title 			VARCHAR(100) 	PATH '$.title',
+    stype 			VARCHAR(30) 	PATH '$.type',
+    hits			INT				PATH '$.hits',
+    rdate     		DATETIME        PATH '$.rdate'
+  )
+) AS jt;
+
+select sid, title, stype, hits, rdate from support; -- stype이 all인 경우
+select sid, title, stype, hits, rdate from support where stype='system';

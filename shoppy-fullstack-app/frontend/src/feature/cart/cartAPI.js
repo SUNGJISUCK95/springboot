@@ -13,6 +13,9 @@ export const getCartCount = (id) => async(dispatch) => {
 //    return jsonData.sumQty;
 }
 
+/**
+    removeCart
+*/
 export const removeCart = (cid) => async(dispatch) => {
     const url = "/cart/deleteItem";
     const data = {"cid": cid};
@@ -27,6 +30,9 @@ export const removeCart = (cid) => async(dispatch) => {
 //    dispatch(updateCartCount());
 }
 
+/**
+    updateCart
+*/
 export const updateCart = (cid, type) => async(dispatch) => {
     const url = "/cart/updateQty";
     const data = {"cid": cid, "type": type};
@@ -39,17 +45,23 @@ export const updateCart = (cid, type) => async(dispatch) => {
     return rows;
 }
 
+/**
+    showCart
+*/
 export const showCart = () => async (dispatch) => {
 //    const jsonData = await axiosData("/data/products.json");
     const url = "/cart/list";
     const { userId } = JSON.parse(localStorage.getItem("loginInfo"));
     const jsonData = await axiosPost(url, {"id": userId});
-    console.log("jsonData => ", jsonData);
+//    console.log("jsonData => ", jsonData);
 
     dispatch(showCartItem({"items": jsonData}));
-    dispatch(updateTotalPrice({"totalPrice" : jsonData[0].totalPrice}));
+    jsonData.length && dispatch(updateTotalPrice({"totalPrice" : jsonData[0].totalPrice}));
 }
 
+/**
+    checkQty
+*/
 export const checkQty = async(pid, size, id) => {
     //쇼핑백 추가한 상품과 사이즈가 DB 테이블에 있는지 유무 확인
     const url = "/cart/checkQty";
@@ -60,6 +72,9 @@ export const checkQty = async(pid, size, id) => {
     return jsonData;
 }
 
+/**
+    addCart
+*/
 export const addCart = (pid, size) => async (dispatch) => {
     const { userId } = JSON.parse(localStorage.getItem("loginInfo"));
     const checkResult = await checkQty(pid, size, userId);
@@ -77,8 +92,8 @@ export const addCart = (pid, size) => async (dispatch) => {
 //       console.log("checkResult qty ==> ", checkResult);
 
         //qty update
-        const rows = await updateCart(checkResult.cid, "+");
-//        dispatch(updateCartCount({"count": 1, "type": true}));
+//        const rows = await updateCart(checkResult.cid, "+");
+        const rows = dispatch(updateCart(checkResult.cid, "+"));
         alert("상품이 추가되었습니다.");
     }
     dispatch(getCartCount(userId));

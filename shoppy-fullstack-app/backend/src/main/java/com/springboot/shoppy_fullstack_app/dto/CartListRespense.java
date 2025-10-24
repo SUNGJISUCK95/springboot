@@ -5,7 +5,12 @@ import lombok.Data;
 @Data
 public class CartListRespense {
     private String id;
+    private String mname;
+    private String phone;
+    private String emailName;
     private int pid;
+    private String name;
+    private String info;
     private String image;
     private int price;
     private String size;

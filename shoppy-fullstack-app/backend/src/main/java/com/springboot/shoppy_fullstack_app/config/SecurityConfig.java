@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/member/**", "/product/**", "/cart/**").permitAll() //여기를 등록해줘야 여러 Controller DB작업 가능
+                        .requestMatchers("/member/**", "/product/**", "/cart/**", "/support/**").permitAll() //여기를 등록해줘야 여러 Controller DB작업 가능
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())   // 리다이렉트 발생 폼로그인 비활성화
