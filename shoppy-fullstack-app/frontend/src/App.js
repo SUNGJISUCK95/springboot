@@ -12,6 +12,7 @@ import { CartProvider } from './context/CartContext.js';
 import { AuthProvider } from './context/AuthContext.js';
 import { ProtectedPageRoute } from './pages/ProtectedPageRoute.js';
 import { ProductProvider } from './context/ProductContext.js'
+import { PayResult } from './pages/PayResult.jsx';
 
 import './styles/cgvSignup.css';
 import "./styles/cgv.css";
@@ -41,6 +42,8 @@ export default function App() {
                     <CheckoutInfo/>
                   </ProtectedPageRoute>
                   }></Route>
+                <Route path="/payResult" element={<PayResult />} />
+
                 <Route path='/support' element={
                   <ProtectedPageRoute>
                     <Support/>
