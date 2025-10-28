@@ -1,19 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import "../styles/cart.css";
 import "../styles/checkoutinfo.css";
 import {getPayment } from '../feature/payment/paymentAPI.js';
 
-export function CheckoutInfo() {   
+export function CheckoutInfo() {
     const cartList = useSelector((state) => state.cart.cartList);
+    const cidList = useSelector((state) => state.cart.cidList);
     const totalPrice = useSelector((state) => state.cart.totalPrice);
     const name = cartList[0].mname;
     const phone = cartList[0].phone;
     const email = cartList[0].emailName;
+    const [receiver, setReceiver] = useState({
+                "name": "홍길동",
+                "phone": "010-1234-1234",
+                "zipcode": "12345",
+                "address1": "서울시 강남구 역삼동",
+                "address2": "123",
+                "memo": "문앞"
+    });
+    const [paymentInfo, setPaymentInfo] = useState({
+            "shippingFee" : "0",
+            "disconuntAmount" : "0",
+            "totalAmount" : totalPrice
+        });
 
+    console.log("receiver => ", receiver);
+    console.log("paymentInfo => ", paymentInfo);
+    console.log("cidList => ", cartList);
 
     const handlePayment = async () => {
-       const result = await getPayment();
+       const result = await getPayment(receiver, paymentInfo, cartList);
 //        console.log("result => ", result);
     }
 
@@ -48,7 +65,7 @@ return (
         <div className="info-box">
         <div className="info-grid">
             <div className="label">이름</div>
-            <div className="value">홍길동</div>
+            <div className="value">{receiver.name}</div>
 
             <div className="label">배송주소</div>
             <div className="value">12345 / 서울시 강남구 역삼동 123</div>

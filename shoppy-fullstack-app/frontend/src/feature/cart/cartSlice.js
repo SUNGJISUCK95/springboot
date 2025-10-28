@@ -4,7 +4,8 @@ import { cartItemsCheck, cartItemsAddInfo } from '../../utils/cart.js';
 const initialState = {
   cartCount: 0,
   cartList: [], //context 방식의 const [cartList, setCartList] = useState([]); 부분과 동일하다
-  totalPrice: 0
+  totalPrice: 0,
+  cidList : []
 }
 
 export const cartSlice = createSlice({ 
@@ -14,7 +15,7 @@ export const cartSlice = createSlice({
     addCartItem(state, action) {
       const { cartItem } = action.payload;
       // console.log("cartSlice => ", action.payload.cartItem); //해당 함수를 호출하면 action으로 값이 넘어온다.     
-      // console.log("cartSlice => ", cartItem);
+      // console.log("cartSlice => ", cartItem);\
 
       state.cartList = cartItemsCheck(state.cartList, cartItem); //initialState과 cartSlice는 서로 영역이 다르므로 state.으로 접근해야한다.
       // console.log("cartSlice => ", state.cartList);
@@ -22,6 +23,7 @@ export const cartSlice = createSlice({
     showCartItem (state, action) {
       const { items } = action.payload;
       state.cartList = items;
+      state.cidList = items.map(item => item.cid);
 //      state.cartList = cartItemsAddInfo(items, state.cartList);
     },
     updateCartCount(state, action) {

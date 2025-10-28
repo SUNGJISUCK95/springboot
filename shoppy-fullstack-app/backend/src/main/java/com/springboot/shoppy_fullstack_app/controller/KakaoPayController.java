@@ -4,6 +4,7 @@ import com.springboot.shoppy_fullstack_app.dto.KakaoPay;
 import com.springboot.shoppy_fullstack_app.dto.KakaoApproveResponse;
 import com.springboot.shoppy_fullstack_app.dto.KakaoReadyResponse;
 import com.springboot.shoppy_fullstack_app.service.KakaoPayService;
+import com.springboot.shoppy_fullstack_app.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,13 @@ import java.util.UUID;
 public class KakaoPayController {
 
     private final KakaoPayService kakaoPayService;
+    private final OrderService orderService;
+    private KakaoPay payInfo = null; //KaKaoPay DTO 클래스 전역으로 사용
 
     @Autowired
-    public KakaoPayController(KakaoPayService kakaoPayService) {
+    public KakaoPayController(KakaoPayService kakaoPayService, OrderService orderService) {
         this.kakaoPayService = kakaoPayService;
+        this.orderService = orderService;
     }
 
     /**
@@ -39,9 +43,21 @@ public class KakaoPayController {
 //        String totalAmount = kakaoPay.getTotalAmount();
 
         //orderId(주문번호) 생성 : UUID 클래스 사용
-        UUID uuid = UUID.randomUUID();
-//        System.out.println("uuid => " + uuid.toString());
-        kakaoPay.setOrderId(uuid.toString());
+        payInfo = kakaoPay; //kakaoPay 객체 주소를 payInfo 복사, 전역으로 확대
+        kakaoPay.setOrderId(UUID.randomUUID().toString());
+
+//        System.out.println("kakaoPay =>");
+//        System.out.println(kakaoPay.getUserId());
+//        System.out.println(kakaoPay.getItemName());
+//        System.out.println(kakaoPay.getQty());
+//        System.out.println(kakaoPay.getCidList());
+//        System.out.println(kakaoPay.getReceiver().getName());
+//        System.out.println(kakaoPay.getReceiver().getAddress1());
+//        System.out.println(kakaoPay.getReceiver().getPhone());
+//        System.out.println(kakaoPay.getPaymentInfo().getShippingFee());
+//        System.out.println(kakaoPay.getPaymentInfo().getDiscountAmount());
+//        System.out.println(kakaoPay.getPaymentInfo().getTotalAmount());
+//        System.out.println("kakaoPay End");
 
         String TEMP_TID = null;
 //        System.out.println(orderId + userId + itemName + qty + totalAmount);
@@ -51,7 +67,7 @@ public class KakaoPayController {
             TEMP_TID = response.getTid(); // 발급받은 TID 저장
 //            System.out.println("TID 발급 성공: " + TEMP_TID + ". 사용자에게 QR 코드를 제시하고 승인을 기다립니다.");
         } else {
-//            System.out.println("결제 준비 실패.");
+            System.out.println("결제 준비 실패.");
         }
 
         return response;
@@ -66,10 +82,13 @@ public class KakaoPayController {
 
         // 2. 조회된 tid를 Approve 서비스에 넘겨 최종 승인 요청
         KakaoApproveResponse approve = kakaoPayService.approve(tid, userId, orderId, pgToken);
-//        System.out.println("Kakao Approve Success --> " + approve);
+        System.out.println("Kakao Approve Success --> " + approve);
 
         // 3. 결제 완료 처리 (DB 상태 업데이트 등)
         // DB 상태 업데이트 - 주문상품을 order_history 테이블에 저장, cart에서는 삭제
+        int result = orderService.save(payInfo);
+        System.out.println("kakopay ::: result => " + result);
+
         URI redirect = URI.create("http://localhost:3000/payResult?orderId=" + orderId + "&status=success");
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(redirect);
