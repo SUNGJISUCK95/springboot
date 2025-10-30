@@ -32,7 +32,7 @@ export default function App() {
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/signup" element={<Signup/>}></Route>
                 <Route path="/cart" element={
-                  <ProtectedPageRoute>
+                  <ProtectedPageRoute> {/*ProtectedPageRoute로 감싼 애들은 로그인에 성공했을시에만 사용가능하다. 참고) ProtectedPageRoute.js */}
                     <Cart/>
                   </ProtectedPageRoute>
                   }></Route>

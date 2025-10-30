@@ -14,7 +14,7 @@ export function ProtectedPageRoute({ children }) { //로그인 체크 보안
             isAlert.current = true;
         }
         return <Navigate to='/login' replace/> //Link는 클릭해야 하지만 Navigate(실시간 페이지 이동)는 자동으로 페이지를 이동한다.
-    } else {
+    } else { //isLogin이 true일 때
         isAlert.current = true;
         return children;
     }

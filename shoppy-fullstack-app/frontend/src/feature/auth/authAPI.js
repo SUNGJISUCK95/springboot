@@ -35,10 +35,10 @@ export const getSignUp = (formData, param) => async(dispatch) => {
     Login
 */
 export const getLogin = (formData, param) => async(dispatch) => {
-
     if(validateFormCheck(param)) {
         const url = "/member/login";
         const result = await axiosPost(url, formData);
+        console.log("result => ", result);
         if(result) {
             dispatch(login({"userId":formData.id}));
             //장바구니 카운트 함수 호출
@@ -57,7 +57,12 @@ export const getLogin = (formData, param) => async(dispatch) => {
     Logout
 */
 export const getLogout = () => async(dispatch) => {
-    dispatch(logout());
-    dispatch(resetCartCount());
-    return true;
+    const url = "/member/logout";
+    const result = await axiosPost(url, {});
+
+    if(result) {
+        dispatch(logout());
+        dispatch(resetCartCount());
+    }
+    return result;
 }

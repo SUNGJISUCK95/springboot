@@ -56,6 +56,8 @@ public class MemberServiceImpl implements MemberService{ //MemberService memberS
         String encodePwd = memberRepository.login(member.getId());
 //        System.out.println(encodePwd);
         boolean result = passwordEncoder.matches(member.getPwd(), encodePwd);
+        //frontend에서 가져온 encode된 pwd하고 sql에 저장되어있는 회원의 pwd를 encode해서 같은지 비교한다.
+
         return result;
     }
 }
